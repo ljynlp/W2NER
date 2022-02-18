@@ -1,4 +1,4 @@
-# Unified Named Entity Recognition as Word-Word Relation Classification
+ # Unified Named Entity Recognition as Word-Word Relation Classification
 
 Source code for AAAI 2022 paper: [Unified Named Entity Recognition as Word-Word Relation Classification](https://arxiv.org/pdf/2112.10070.pdf)
 
@@ -52,14 +52,8 @@ Source code for AAAI 2022 paper: [Unified Named Entity Recognition as Word-Word 
 ## 5. Training
 
 ```bash
+>> python main.py --config ./config/example.json
 ```
-
-\>> python main.py --config ./config/example.json
-
-```
-
-```
-
 ## 6. License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -6,7 +6,7 @@ Source code for AAAI 2022 paper: [Unified Named Entity Recognition as Word-Word 
 
 ### Label Scheme
 <p align="center">
-  <img src="./figures/scheme.PNG" width="300"/>
+  <img src="./figures/scheme.PNG" width="400"/>
 </p>
 
 ### Architecture

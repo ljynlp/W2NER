@@ -5,12 +5,14 @@ Source code for AAAI 2022 paper: [Unified Named Entity Recognition as Word-Word 
 > So far, named entity recognition (NER) has been involved with three major types, including flat, overlapped (aka. nested), and discontinuous NER, which have mostly been studied individually. Recently, a growing interest has been built for unified NER, tackling the above three jobs concurrently with one single model. Current best-performing methods mainly include span-based and sequence-to-sequence models, where unfortunately the former merely focus on boundary identification and the latter may suffer from exposure bias. In this work, we present a novel alternative by modeling the unified NER as word-word relation classification, namely W2NER. The architecture resolves the kernel bottleneck of unified NER by effectively modeling the neighboring relations between entity words with Next-Neighboring-Word (NNW) and Tail-Head-Word-* (THW-*) relations. Based on the W2NER scheme we develop a neural framework, in which the unified NER is modeled as a 2D grid of word pairs. We then propose multi-granularity 2D convolutions for better refining the grid representations. Finally, a co-predictor is used to sufficiently reason the word-word relations. We perform extensive experiments on 14 widely-used benchmark datasets for flat, overlapped, and discontinuous NER (8 English and 6 Chinese datasets), where our model beats all the current top-performing baselines, pushing the state-of-the-art performances of unified NER.
 
 ### Label Scheme
-
-![Label Scheme](/figures/scheme.PNG)
+<p align="center">
+  <img src="./figures/scheme.PNG" width="300"/>
+</p>
 
 ### Architecture
-
-![Label Scheme](/figures/architecture.PNG)
+<p align="center">
+  <img src="./figures/architecture.PNG" />
+</p>
 
 ## 1. Environments
 

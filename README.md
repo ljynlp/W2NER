@@ -45,6 +45,8 @@ Source code for AAAI 2022 paper: [Unified Named Entity Recognition as Word-Word 
 - [ShARe13](https://clefehealth.imag.fr/?page_id=441)
 - [ShARe14](https://sites.google.com/site/clefehealth2014/)
 
+We provide some datasets processed in this [link](https://drive.google.com/drive/folders/1NdvUeIUUL3mlS8QwwnqM628gCK7_0yPv?usp=sharing).
+
 ## 4. Preparation
 
 - Download dataset

@@ -26,7 +26,7 @@ Source code for AAAI 2022 paper: [Unified Named Entity Recognition as Word-Word 
 ```
 - numpy (1.21.4)
 - torch (1.10.0)
-- genism (4.1.2)
+- gensim (4.1.2)
 - transformers (4.13.0)
 - pandas (1.3.4)
 - scikit-learn (1.0.1)

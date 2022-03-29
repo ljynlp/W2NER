@@ -7,6 +7,8 @@ class Config:
             config = json.load(f)
 
         self.dataset = config["dataset"]
+        self.save_path = config["save_path"]
+        self.predict_path = config["predict_path"]
 
         self.dist_emb_size = config["dist_emb_size"]
         self.type_emb_size = config["type_emb_size"]

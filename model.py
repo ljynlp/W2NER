@@ -170,9 +170,9 @@ class CoPredictor(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x, y, z):
-        ent_sub = self.dropout(self.mlp1(x))
-        ent_obj = self.dropout(self.mlp2(y))
-        o1 = self.biaffine(ent_sub, ent_obj)
+        h = self.dropout(self.mlp1(x))
+        t = self.dropout(self.mlp2(y))
+        o1 = self.biaffine(h, t)
 
         z = self.dropout(self.mlp_rel(z))
         o2 = self.linear(z)

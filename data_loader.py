@@ -47,6 +47,9 @@ class Vocabulary(object):
         label = label.lower()
         return self.label2id[label]
 
+    def id_to_label(self, i):
+        return self.id2label[i]
+
 def collate_fn(data):
     bert_inputs, grid_labels, grid_mask2d, pieces2word, dist_inputs, sent_length, entity_text = map(list, zip(*data))
 
@@ -105,6 +108,7 @@ def process_bert(data, tokenizer, vocab):
     entity_text = []
     pieces2word = []
     sent_length = []
+
     for index, instance in enumerate(data):
         if len(instance['sentence']) == 0:
             continue
@@ -199,5 +203,5 @@ def load_data_bert(config):
     train_dataset = RelationDataset(*process_bert(train_data, tokenizer, vocab))
     dev_dataset = RelationDataset(*process_bert(dev_data, tokenizer, vocab))
     test_dataset = RelationDataset(*process_bert(test_data, tokenizer, vocab))
-    return train_dataset, dev_dataset, test_dataset
+    return (train_dataset, dev_dataset, test_dataset), (train_data, dev_data, test_data)
 

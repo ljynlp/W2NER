@@ -1,6 +1,6 @@
 import logging
-import time
 import pickle
+import time
 
 
 def get_logger(dataset):
@@ -41,8 +41,15 @@ def convert_index_to_text(index, type):
     return text
 
 
+def convert_text_to_index(text):
+    index, type = text.split("-#-")
+    index = [int(x) for x in index.split("-")]
+    return index, int(type)
+
+
 def decode(outputs, entities, length):
     ent_r, ent_p, ent_c = 0, 0, 0
+    decode_entities = []
     for index, (instance, ent_set, l) in enumerate(zip(outputs, entities, length)):
         forward_dict = {}
         head_dict = {}
@@ -83,13 +90,13 @@ def decode(outputs, entities, length):
             find_entity(head, [], head_dict[head])
 
         predicts = set([convert_index_to_text(x, ht_type_dict[(x[0], x[-1])]) for x in predicts])
-
+        decode_entities.append([convert_text_to_index(x) for x in predicts])
         ent_r += len(ent_set)
         ent_p += len(predicts)
         for x in predicts:
             if x in ent_set:
                 ent_c += 1
-    return ent_c, ent_p, ent_r
+    return ent_c, ent_p, ent_r, decode_entities
 
 
 def cal_f1(c, p, r):

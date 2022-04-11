@@ -64,14 +64,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 7. Citation
 
-If you use this work or code, please kindly cite the following paper:
+If you use this work or code, please kindly cite this paper:
 
 ```
-@article{li2021unified,
+@inproceedings{li2021unified,
   title={Unified Named Entity Recognition as Word-Word Relation Classification},
   author={Li, Jingye and Fei, Hao and Liu, Jiang and Wu, Shengqiong and Zhang, Meishan and Teng, Chong and Ji, Donghong and Li, Fei},
-  journal={arXiv preprint arXiv:2112.10070},
-  year={2021}
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  year={2022}
 }
 ```
 

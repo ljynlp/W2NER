@@ -67,16 +67,16 @@ class Trainer(object):
             grid_labels = grid_labels[grid_mask2d].contiguous().view(-1)
             outputs = outputs[grid_mask2d].contiguous().view(-1)
 
-            label_result.append(grid_labels)
-            pred_result.append(outputs)
+            label_result.append(grid_labels.cpu())
+            pred_result.append(outputs.cpu())
 
             self.scheduler.step()
 
         label_result = torch.cat(label_result)
         pred_result = torch.cat(pred_result)
 
-        p, r, f1, _ = precision_recall_fscore_support(label_result.cpu().numpy(),
-                                                      pred_result.cpu().numpy(),
+        p, r, f1, _ = precision_recall_fscore_support(label_result.numpy(),
+                                                      pred_result.numpy(),
                                                       average="macro")
 
         table = pt.PrettyTable(["Train {}".format(epoch), "Loss", "F1", "Precision", "Recall"])
@@ -115,20 +115,20 @@ class Trainer(object):
                 grid_labels = grid_labels[grid_mask2d].contiguous().view(-1)
                 outputs = outputs[grid_mask2d].contiguous().view(-1)
 
-                label_result.append(grid_labels)
-                pred_result.append(outputs)
+                label_result.append(grid_labels.cpu())
+                pred_result.append(outputs.cpu())
 
         label_result = torch.cat(label_result)
         pred_result = torch.cat(pred_result)
 
-        p, r, f1, _ = precision_recall_fscore_support(label_result.cpu().numpy(),
-                                                      pred_result.cpu().numpy(),
+        p, r, f1, _ = precision_recall_fscore_support(label_result.numpy(),
+                                                      pred_result.numpy(),
                                                       average="macro")
         e_f1, e_p, e_r = utils.cal_f1(total_ent_c, total_ent_p, total_ent_r)
 
         title = "EVAL" if not is_test else "TEST"
-        logger.info('{} Label F1 {}'.format(title, f1_score(label_result.cpu().numpy(),
-                                                            pred_result.cpu().numpy(),
+        logger.info('{} Label F1 {}'.format(title, f1_score(label_result.numpy(),
+                                                            pred_result.numpy(),
                                                             average=None)))
 
         table = pt.PrettyTable(["{} {}".format(title, epoch), 'F1', "Precision", "Recall"])
@@ -181,21 +181,21 @@ class Trainer(object):
                 grid_labels = grid_labels[grid_mask2d].contiguous().view(-1)
                 outputs = outputs[grid_mask2d].contiguous().view(-1)
 
-                label_result.append(grid_labels)
-                pred_result.append(outputs)
+                label_result.append(grid_labels.cpu())
+                pred_result.append(outputs.cpu())
                 i += config.batch_size
 
         label_result = torch.cat(label_result)
         pred_result = torch.cat(pred_result)
 
-        p, r, f1, _ = precision_recall_fscore_support(label_result.cpu().numpy(),
-                                                      pred_result.cpu().numpy(),
+        p, r, f1, _ = precision_recall_fscore_support(label_result.numpy(),
+                                                      pred_result.numpy(),
                                                       average="macro")
         e_f1, e_p, e_r = utils.cal_f1(total_ent_c, total_ent_p, total_ent_r)
 
         title = "TEST"
-        logger.info('{} Label F1 {}'.format("TEST", f1_score(label_result.cpu().numpy(),
-                                                            pred_result.cpu().numpy(),
+        logger.info('{} Label F1 {}'.format("TEST", f1_score(label_result.numpy(),
+                                                            pred_result.numpy(),
                                                             average=None)))
 
         table = pt.PrettyTable(["{} {}".format(title, epoch), 'F1', "Precision", "Recall"])

@@ -1,0 +1,33 @@
+{
+  "dataset": "ace05",
+  "save_path": "model.pt",
+  "predict_path": "output.json",
+
+  "dist_emb_size": 20,
+  "type_emb_size": 20,
+  "lstm_hid_size": 1024,
+  "conv_hid_size": 160,
+  "bert_hid_size": 1024,
+  "biaffine_size": 1024,
+  "ffnn_hid_size": 240,
+  "dilation": [1, 2, 3],
+
+  "emb_dropout": 0.5,
+  "conv_dropout": 0.5,
+  "out_dropout": 0.33,
+
+  "epochs": 20,
+  "batch_size": 8,
+
+  "learning_rate": 1e-3,
+  "weight_decay": 0,
+  "clip_grad_norm": 5.0,
+
+  "bert_name": "bert-large-uncased",
+  "bert_learning_rate": 1e-5,
+  "warm_factor": 0.1,
+
+  "use_bert_last_4_layers": true,
+  "seed": 123
+
+}

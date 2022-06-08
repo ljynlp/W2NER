@@ -1,6 +1,7 @@
 import logging
 import pickle
 import time
+from collections import defaultdict, deque
 
 
 def get_logger(dataset):
@@ -48,54 +49,53 @@ def convert_text_to_index(text):
 
 
 def decode(outputs, entities, length):
+    class Node:
+        def __init__(self):
+            self.THW = []                # [(tail, type)]
+            self.NNW = defaultdict(set)   # {(head,tail): {next_index}}
+
     ent_r, ent_p, ent_c = 0, 0, 0
     decode_entities = []
-    for index, (instance, ent_set, l) in enumerate(zip(outputs, entities, length)):
-        forward_dict = {}
-        head_dict = {}
-        ht_type_dict = {}
-        for i in range(l):
-            for j in range(i + 1, l):
-                if instance[i, j] == 1:
-                    if i not in forward_dict:
-                        forward_dict[i] = [j]
-                    else:
-                        forward_dict[i].append(j)
-        for i in range(l):
-            for j in range(i, l):
-                if instance[j, i] > 1:
-                    ht_type_dict[(i, j)] = instance[j, i]
-                    if i not in head_dict:
-                        head_dict[i] = {j}
-                    else:
-                        head_dict[i].add(j)
-
+    q = deque()
+    for instance, ent_set, l in zip(outputs, entities, length):
         predicts = []
-
-        def find_entity(key, entity, tails):
-            entity.append(key)
-            if key not in forward_dict:
-                if key in tails:
-                    predicts.append(entity.copy())
-                entity.pop()
-                return
-            else:
-                if key in tails:
-                    predicts.append(entity.copy())
-            for k in forward_dict[key]:
-                find_entity(k, entity, tails)
-            entity.pop()
-
-        for head in head_dict:
-            find_entity(head, [], head_dict[head])
-
-        predicts = set([convert_index_to_text(x, ht_type_dict[(x[0], x[-1])]) for x in predicts])
+        nodes = [Node() for _ in range(l)]
+        for cur in reversed(range(l)):
+            heads = []
+            for pre in range(cur+1):
+                # THW
+                if instance[cur, pre] > 1: 
+                    nodes[pre].THW.append((cur, instance[cur, pre]))
+                    heads.append(pre)
+                # NNW
+                if pre < cur and instance[pre, cur] == 1:
+                    # cur node
+                    for head in heads:
+                        nodes[pre].NNW[(head,cur)].add(cur)
+                    # post nodes
+                    for head,tail in nodes[cur].NNW.keys():
+                        if tail >= cur and head <= pre:
+                            nodes[pre].NNW[(head,tail)].add(cur)
+            # entity
+            for tail,type_id in nodes[cur].THW:
+                if cur == tail:
+                    predicts.append(([cur], type_id))
+                    continue
+                q.clear()
+                q.append([cur])
+                while len(q) > 0:
+                    chains = q.pop()
+                    for idx in nodes[chains[-1]].NNW[(cur,tail)]:
+                        if idx == tail:
+                            predicts.append((chains + [idx], type_id))
+                        else:
+                            q.append(chains + [idx])
+        
+        predicts = set([convert_index_to_text(x[0], x[1]) for x in predicts])
         decode_entities.append([convert_text_to_index(x) for x in predicts])
         ent_r += len(ent_set)
         ent_p += len(predicts)
-        for x in predicts:
-            if x in ent_set:
-                ent_c += 1
+        ent_c += len(predicts.intersection(ent_set))
     return ent_c, ent_p, ent_r, decode_entities
 
 

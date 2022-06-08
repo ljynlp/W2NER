@@ -1,8 +1,7 @@
 import logging
 import pickle
 import time
-from collections import defaultdict
-import queue
+from collections import defaultdict, deque
 
 
 def get_logger(dataset):
@@ -57,6 +56,7 @@ def decode(outputs, entities, length):
 
     ent_r, ent_p, ent_c = 0, 0, 0
     decode_entities = []
+    q = deque()
     for instance, ent_set, l in zip(outputs, entities, length):
         predicts = []
         nodes = [Node() for _ in range(l)]
@@ -81,15 +81,15 @@ def decode(outputs, entities, length):
                 if cur == tail:
                     predicts.append(([cur], type_id))
                     continue
-                q = queue.Queue()
-                q.put([cur])
-                while not q.empty():
-                    chains = q.get()
+                q.clear()
+                q.append([cur])
+                while len(q) > 0:
+                    chains = q.pop()
                     for idx in nodes[chains[-1]].NNW[(cur,tail)]:
                         if idx == tail:
                             predicts.append((chains + [idx], type_id))
                         else:
-                            q.put(chains + [idx])
+                            q.append(chains + [idx])
         
         predicts = set([convert_index_to_text(x[0], x[1]) for x in predicts])
         decode_entities.append([convert_text_to_index(x) for x in predicts])

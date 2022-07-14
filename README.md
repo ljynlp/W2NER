@@ -68,9 +68,12 @@ If you use this work or code, please kindly cite this paper:
 
 ```
 @inproceedings{li2022unified,
-  title={Unified Named Entity Recognition as Word-Word Relation Classification},
+  title={Unified named entity recognition as word-word relation classification},
   author={Li, Jingye and Fei, Hao and Liu, Jiang and Wu, Shengqiong and Zhang, Meishan and Teng, Chong and Ji, Donghong and Li, Fei},
-  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={36},
+  number={10},
+  pages={10965--10973},
   year={2022}
 }
 ```
